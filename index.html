@@ -14,12 +14,32 @@
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+      <!-- Target 0: reproduce el video -->
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-gltf-model rotation="0 0 0 " position="0 -0.25 0" scale="0.05 0.05 0.05" src="#raccoonModel" animation-mixer>
+        <a-video src="#bearVideo" position="0 0 0" rotation="0 0 0" width="1" height="0.552"></a-video>
       </a-entity>
+
+      <!-- Target 1: modelo 3D del mapache -->
       <a-entity mindar-image-target="targetIndex: 1">
-        <a-gltf-model rotation="0 0 0 " position="0 -0.25 0" scale="0.05 0.05 0.05" src="#bearModel" animation-mixer>
+        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.05 0.05 0.05" src="#raccoonModel" animation-mixer></a-gltf-model>
       </a-entity>
     </a-scene>
+
+    <script>
+      const sceneEl = document.querySelector('a-scene');
+      sceneEl.addEventListener('renderstart', () => {
+        const targets = document.querySelectorAll('[mindar-image-target]');
+        const video = document.querySelector('#bearVideo');
+        const videoTarget = targets[0]; // targetIndex: 0
+
+        videoTarget.addEventListener('targetFound', () => {
+          video.play();
+        });
+
+        videoTarget.addEventListener('targetLost', () => {
+          video.pause();
+        });
+      });
+    </script>
   </body>
 </html>
