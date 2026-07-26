@@ -8,20 +8,33 @@
   <body>
     <a-scene mindar-image="imageTargetSrc: https://georgesteve.github.io/regen-ra-multi/targets%20(1).mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
-        <video id="bearVideo" src="https://georgesteve.github.io/regen-ra-multi/vid1.mp4" preload="auto" loop="true" muted="true" playsinline webkit-playsinline crossorigin="anonymous"></video>
-        <a-asset-item id="raccoonModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/band-example/raccoon/scene.gltf"></a-asset-item>
+        <video id="video1" src="https://georgesteve.github.io/regen-ra-multi/vid1.mp4" preload="auto" loop="true" muted="true" playsinline webkit-playsinline crossorigin="anonymous"></video>
+        <video id="video2" src="https://georgesteve.github.io/regen-ra-multi/vid2.mp4" preload="auto" loop="true" muted="true" playsinline webkit-playsinline crossorigin="anonymous"></video>
+        <video id="video3" src="https://georgesteve.github.io/regen-ra-multi/vid3.mp4" preload="auto" loop="true" muted="true" playsinline webkit-playsinline crossorigin="anonymous"></video>
+        <video id="video4" src="https://georgesteve.github.io/regen-ra-multi/vid4.mp4" preload="auto" loop="true" muted="true" playsinline webkit-playsinline crossorigin="anonymous"></video>
+        <video id="video5" src="https://georgesteve.github.io/regen-ra-multi/vid5.mp4" preload="auto" loop="true" muted="true" playsinline webkit-playsinline crossorigin="anonymous"></video>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- Target 0: reproduce el video -->
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-video src="#bearVideo" position="0 0 0" rotation="0 0 0" width="1" height="0.552"></a-video>
+        <a-video src="#video1" position="0 0 0" rotation="0 0 0" width="1" height="0.552"></a-video>
       </a-entity>
 
-      <!-- Target 1: modelo 3D del mapache -->
       <a-entity mindar-image-target="targetIndex: 1">
-        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.05 0.05 0.05" src="#raccoonModel" animation-mixer></a-gltf-model>
+        <a-video src="#video2" position="0 0 0" rotation="0 0 0" width="1" height="0.552"></a-video>
+      </a-entity>
+
+      <a-entity mindar-image-target="targetIndex: 2">
+        <a-video src="#video3" position="0 0 0" rotation="0 0 0" width="1" height="0.552"></a-video>
+      </a-entity>
+
+      <a-entity mindar-image-target="targetIndex: 3">
+        <a-video src="#video4" position="0 0 0" rotation="0 0 0" width="1" height="0.552"></a-video>
+      </a-entity>
+
+      <a-entity mindar-image-target="targetIndex: 4">
+        <a-video src="#video5" position="0 0 0" rotation="0 0 0" width="1" height="0.552"></a-video>
       </a-entity>
     </a-scene>
 
@@ -29,15 +42,18 @@
       const sceneEl = document.querySelector('a-scene');
       sceneEl.addEventListener('renderstart', () => {
         const targets = document.querySelectorAll('[mindar-image-target]');
-        const video = document.querySelector('#bearVideo');
-        const videoTarget = targets[0]; // targetIndex: 0
+        const videoIds = ['video1', 'video2', 'video3', 'video4', 'video5'];
 
-        videoTarget.addEventListener('targetFound', () => {
-          video.play();
-        });
+        targets.forEach((targetEl, index) => {
+          const video = document.querySelector('#' + videoIds[index]);
 
-        videoTarget.addEventListener('targetLost', () => {
-          video.pause();
+          targetEl.addEventListener('targetFound', () => {
+            video.play();
+          });
+
+          targetEl.addEventListener('targetLost', () => {
+            video.pause();
+          });
         });
       });
     </script>
